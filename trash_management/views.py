@@ -19,12 +19,12 @@ class TrashBinView(APIView):
     @staticmethod
     def post(request):
         id =request.data.get('id')
-        serializer = TrashBinSerializer(data=request.data)
+        serializer = DustbinPostSerializer(data=request.data)
         print(request.data)
        
         if TrashBin.objects.filter(id=id).exists():    
             trash_bin = TrashBin.objects.get(id=id)
-            serializer = TrashBinSerializer(trash_bin, data=request.data)
+            serializer = DustbinPostSerializer(trash_bin, data=request.data)
         else:
             # If the TrashBin with the given ID doesn't exist, create a new one
             if serializer.is_valid():
@@ -33,3 +33,8 @@ class TrashBinView(APIView):
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(request):
+        bins = Dustbin.objects.all()
+        serializer = DustbinGetSerializer(instance=bins, many=True)
+        
