@@ -37,4 +37,23 @@ class TrashBinView(APIView):
     def get(request):
         bins = Dustbin.objects.all()
         serializer = DustbinGetSerializer(instance=bins, many=True)
+
+
+class ReportView(APIView):
+    @staticmethod
+    def post(request):
+        data = request.data
+        serializer= ReportPostSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "save": True,
+                "msg": "Report sumbitted successfully"
+            })
+        return Response({
+            "save":False,
+            "msg": serializer.errors
+        })
         
+    
+    # def get(request):
