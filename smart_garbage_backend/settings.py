@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
+ROOT_URLCONF = 'smart_garbage_backend.urls'
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,6 +55,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "smart_garbage_backend.urls"
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -71,6 +75,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "smart_garbage_backend.wsgi.application"
+ASGI_APPLICATION = 'smart_garbage_backend.routing.application'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # for normal authentication
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # jwt configgurations
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ]
+}
 
 
 # Database
@@ -101,6 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+AUTH_USER_MODEL = 'user_management.User'
 
 
 # Internationalization

@@ -6,6 +6,21 @@ import uuid
 
 
 
+
+
+class Zone(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4)
+    name=models.CharField(max_length=50)
+    city =models.CharField(max_length=50)
+    district =models.CharField(max_length=100)        
+    ward = models.CharField(max_length=100)
+    
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'zone'
 class User(AbstractUser):
     
     TYPES =(
@@ -16,34 +31,22 @@ class User(AbstractUser):
     
     
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     phone=models.CharField(max_length=15,unique=True)
-    zone = models.ForeignKey(Zone,on_delete=models.CASCADE)
-    usertype=models.CharField(choices=TYPES)
+    zone = models.ForeignKey(Zone,on_delete=models.CASCADE, null=True)
+    usertype=models.CharField(choices=TYPES,max_length=20)
     
     USERNAME_FIELD="email"
     REQUIRED_FIELDS =[]
     
     def __str__(self):
-        return self.name
+        return self.username
     
     
     class Meta:
         db_table = 'user'
                 
         
-class Zone(models.Model):
-    id=models.UUIDField(primary_key=True,default=uuid.uuid4)
-    name=models.CharField(max_length=50)
-    city =models.CharField(max_length=50)
-    district =models.CharField()        
-    ward = models.CharField()
-    
-    
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        db_table = 'zone'
+
     

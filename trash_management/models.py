@@ -10,7 +10,7 @@ class Dustbin(models.Model):
     name = models.CharField(max_length=100)
     zone = models.ForeignKey(Zone,on_delete=models.CASCADE)
     lat = models.FloatField()
-    long= models.FloatField()
+    lon= models.FloatField()
     percentage =models.CharField(max_length=5)
     status =models.CharField(max_length=100)
     
@@ -31,8 +31,8 @@ class Report(models.Model):
 
 class Complain(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    reportername = models.CharField(max_length=100, null=false,blank=False)
-    reporterphone = models.CharField(unique=False)
+    reportername = models.CharField(max_length=100, null=False,blank=False)
+    reporterphone = models.CharField(unique=False,max_length=20)
     reporteremail=models.EmailField(null=False)
     attachment = models.TextField()# for the use of image in binary
     description = models.TextField()

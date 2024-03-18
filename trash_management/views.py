@@ -55,5 +55,48 @@ class ReportView(APIView):
             "msg": serializer.errors
         })
         
+# {
+#     "driver":"hemed",
+#     "description": "weqewqewqeqw",
+#     "attachment":"image",
+#     } 
+    @staticmethod
+    def get(request):
+        reports = Report.get.all()
+        serializer = ReportGetSerializer(instance=posts, many= True)
+        if serializer is not None:
+            return Response(serializer.data)
+        return Response(serializer.errors)
     
-    # def get(request):
+
+
+class ComplainView(APIView):
+    @staticmethod
+    def post(request):
+        data = request.data
+        serializer = ComplainPostSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': 'Success',
+                'msg': 'Successfully submitted'
+            })
+        return Response({
+            'status':'Fail',
+            'msg': serializer.errors
+        })          
+        
+    
+# {
+#     "reportername":"Mastra codes",
+#     "reporterphone":"2555799900000",
+#     "reportemail":"adam@gmail.com",
+#     "attachment":"image",
+#     "description":"this and that",
+# }
+    @staticmethod
+    def get(request):
+        compains = Complain.objects.all()
+        serializer=ComplainsGetSerializer(compains,many=True)
+        return Response(serializer.data)
+    
