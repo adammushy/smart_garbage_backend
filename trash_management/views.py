@@ -22,8 +22,8 @@ class TrashBinView(APIView):
         serializer = DustbinPostSerializer(data=request.data)
         print(request.data)
        
-        if TrashBin.objects.filter(id=id).exists():    
-            trash_bin = TrashBin.objects.get(id=id)
+        if Dustbin.objects.filter(id=id).exists():    
+            trash_bin = Dustbin.objects.get(id=id)
             serializer = DustbinPostSerializer(trash_bin, data=request.data)
         else:
             # If the TrashBin with the given ID doesn't exist, create a new one
@@ -31,12 +31,13 @@ class TrashBinView(APIView):
                 serializer.save()
 
         if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"data":serializer.data,"msg": "data saved"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(request):
+    def get(self,request):
         bins = Dustbin.objects.all()
         serializer = DustbinGetSerializer(instance=bins, many=True)
+        return Response(serializer.data)
 
 
 class ReportView(APIView):
@@ -77,10 +78,12 @@ class ComplainView(APIView):
         serializer = ComplainPostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({
+            response ={
                 'status': 'Success',
                 'msg': 'Successfully submitted'
-            })
+            }
+            print(response)
+            return Response()
         return Response({
             'status':'Fail',
             'msg': serializer.errors

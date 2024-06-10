@@ -20,7 +20,7 @@ class RegisterUser(APIView):
         data = request.data
         print(data)
         serializer = UserSerializer(data=data)
-        print(serializer)
+        # print(serializer.data)
         if serializer.is_valid():
             print("DDDDD")
             email = data['email']
@@ -65,9 +65,9 @@ class UserLogin(APIView):
         # print(user)
         if user is not None:
             login(request,user)
-            print("ddddd")
+           
             user_id = User.objects.get(email=email)
-            print(user_id)
+          
             user_info = UserSerializer(instance=user_id,many=False).data
             # token, created = Token.get_or_create(user=user)
             token, created  = Token.objects.get_or_create(user=user)
@@ -76,6 +76,7 @@ class UserLogin(APIView):
                 'token':token.key,
                 'user':user_info
             }
+            print(response)
             return Response(response)
         else:
             response ={

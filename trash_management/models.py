@@ -8,7 +8,7 @@ from user_management.models import *
 class Dustbin(models.Model):
     id =models.UUIDField(primary_key=True,default=uuid.uuid4)
     name = models.CharField(max_length=100)
-    zone = models.ForeignKey(Zone,on_delete=models.CASCADE)
+    # zone = models.ForeignKey(Zone,on_delete=models.CASCADE)
     lat = models.FloatField()
     lon= models.FloatField()
     percentage =models.CharField(max_length=5)
@@ -20,7 +20,14 @@ class Dustbin(models.Model):
     
     class Meta:
         db_table = 'dustbin'
-        
+#  {
+#      "id":"1234qwerty",
+#      "name":"mbezi beach",
+#      "lat":-6.7335522,
+#      "lon":39.2108993,
+#      "percentage":76,
+#      "status":"almost full"
+#  }       
 class Report(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4)
     driver=models.ForeignKey(User, on_delete=models.CASCADE)
