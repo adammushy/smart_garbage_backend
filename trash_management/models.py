@@ -35,6 +35,9 @@ class Report(models.Model):
     attachment = models.TextField()#this will be binary data
     created_at = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        db_table ='report'
+    
 
 class Complain(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -44,5 +47,10 @@ class Complain(models.Model):
     attachment = models.TextField()# for the use of image in binary
     description = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
+        
+    class Meta:
+        db_table = 'complain'
+        
+
         
         

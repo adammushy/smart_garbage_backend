@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-
 from .models import *
 from .serializer import * 
 from rest_framework.views import APIView
@@ -10,9 +7,10 @@ from django.db.models import QuerySet
 from rest_framework.generics import UpdateAPIView
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
-
-
+from rest_framework.permissions import *
+from rest_framework.authentication import *
+from rest_framework.apps import *
+import random
 
 
 class TrashBinView(APIView):
@@ -61,15 +59,30 @@ class ReportView(APIView):
 #     "description": "weqewqewqeqw",
 #     "attachment":"image",
 #     } 
+
     @staticmethod
     def get(request):
-        reports = Report.get.all()
-        serializer = ReportGetSerializer(instance=posts, many= True)
-        if serializer is not None:
-            return Response(serializer.data)
-        return Response(serializer.errors)
-    
-
+        id = request.GET.get('id')
+        print(f"ID: {id}")
+        q = request.GET.get('q')
+        if q=="s":
+            try:
+                reports = Report.objects.filter(driver=id)
+                print(f"reports from driver: {reports}")
+                serializer = ReportGetSerializer(instance=reports, many=True)
+                response = {"status": True, "data": serializer.data}
+                
+                return Response(response)
+            except Report.DoesNotExist:
+                return Response({"status": False, "msg": "No report found"})
+            
+        elif q=="a":
+            reports = Report.get.all()
+            serializer = ReportGetSerializer(instance=posts, many= True)
+            if serializer is not None:
+                return Response(serializer.data)
+            return Response(serializer.errors)
+        
 
 class ComplainView(APIView):
     @staticmethod
@@ -79,13 +92,13 @@ class ComplainView(APIView):
         if serializer.is_valid():
             serializer.save()
             response ={
-                'status': 'Success',
+                'success': True,
                 'msg': 'Successfully submitted'
             }
             print(response)
             return Response()
         return Response({
-            'status':'Fail',
+            'success':False,
             'msg': serializer.errors
         })          
         
@@ -98,8 +111,8 @@ class ComplainView(APIView):
 #     "description":"this and that",
 # }
     @staticmethod
-    def get(request):
-        compains = Complain.objects.all()
+    def get(request):               
+        complains = Complain.objects.all()
         serializer=ComplainsGetSerializer(compains,many=True)
         return Response(serializer.data)
     
