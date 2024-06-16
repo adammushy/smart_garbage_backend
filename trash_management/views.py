@@ -78,7 +78,7 @@ class ReportView(APIView):
             
         elif q=="a":
             reports = Report.objects.all()
-            serializer = ReportGetSerializer(instance=posts, many= True)
+            serializer = ReportGetSerializer(instance=reports, many= True)
             if serializer is not None:
                 return Response({"status":True, "data":serializer.data})
             return Response(serializer.errors)
