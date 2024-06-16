@@ -39,7 +39,8 @@ class RegisterUser(APIView):
     @staticmethod
     def get(request):
         users=User.objects.all()
-        return Response(UserSerializer(instance=user,many=True).data)            
+        serializer=UserSerializer(instance=user,many=True)
+        return Response(serializer.data)            
     
     #how data is returned JSON
     # {

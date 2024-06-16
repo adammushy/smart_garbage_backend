@@ -80,7 +80,7 @@ class ReportView(APIView):
             reports = Report.get.all()
             serializer = ReportGetSerializer(instance=posts, many= True)
             if serializer is not None:
-                return Response(serializer.data)
+                return Response({"status":True, "data":serializer.data})
             return Response(serializer.errors)
         
 
