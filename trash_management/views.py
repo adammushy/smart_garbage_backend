@@ -22,7 +22,12 @@ class TrashBinView(APIView):
        
         if Dustbin.objects.filter(id=id).exists():    
             trash_bin = Dustbin.objects.get(id=id)
+            print(f"TASH BIN EXIT :: {trash_bin}")
             serializer = DustbinPostSerializer(trash_bin, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+            
+                       
         else:
             # If the TrashBin with the given ID doesn't exist, create a new one
             if serializer.is_valid():

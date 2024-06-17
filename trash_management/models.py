@@ -6,7 +6,7 @@ from user_management.models import *
 # create your models here
         
 class Dustbin(models.Model):
-    id =models.UUIDField(primary_key=True,default=uuid.uuid4)
+    id =models.CharField(max_length=100, primary_key=True)
     name = models.CharField(max_length=100)
     # zone = models.ForeignKey(Zone,on_delete=models.CASCADE)
     lat = models.FloatField()
