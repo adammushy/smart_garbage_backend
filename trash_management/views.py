@@ -101,7 +101,7 @@ class ComplainView(APIView):
                 'msg': 'Successfully submitted'
             }
             print(response)
-            return Response()
+            return Response(response)
         return Response({
             'success':False,
             'msg': serializer.errors
