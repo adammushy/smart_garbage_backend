@@ -118,6 +118,6 @@ class ComplainView(APIView):
     @staticmethod
     def get(request):               
         complains = Complain.objects.all()
-        serializer=ComplainsGetSerializer(instance=complains,many=True)
+        serializer=ComplainGetSerializer(instance=complains,many=True)
         return Response({serializer.data})
     
