@@ -101,7 +101,7 @@ class ComplainView(APIView):
                 'msg': 'Successfully submitted'
             }
             print(response)
-            return Response()
+            return Response(response)
         return Response({
             'success':False,
             'msg': serializer.errors
@@ -118,6 +118,6 @@ class ComplainView(APIView):
     @staticmethod
     def get(request):               
         complains = Complain.objects.all()
-        serializer=ComplainsGetSerializer(compains,many=True)
+        serializer=ComplainGetSerializer(instance=complains,many=True)
         return Response(serializer.data)
     

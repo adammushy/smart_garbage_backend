@@ -53,6 +53,6 @@ class ComplainPostSerializer(serializers.ModelSerializer):
 class ComplainGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complain
-        fields = '--all--'
+        fields = '__all__'
         depth =1
         
