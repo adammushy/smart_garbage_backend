@@ -26,7 +26,7 @@ class User(AbstractUser):
     TYPES =(
         ("ADMIN","user is super admin"),
         ("AGENT","user is admin of company"),
-         ("DRIVER","truck driver"),
+        ("DRIVER","truck driver"),
     )
     
     

@@ -27,8 +27,17 @@ class ReportGetSerializer(serializers.ModelSerializer):
     class Meta:
         model =Report
         fields='__all__'
-        depth = 2
+    def to_representation(self, instance):
+        response= super().to_representation(instance)
+        driver = instance.driver
+        response ["driver"] ={
+            "id":driver.id,
+            "name": driver.username,
+            "phone":driver.phone,
+            "email":driver.email
+        }
         
+        return response
  
 class ComplainPostSerializer(serializers.ModelSerializer):
     class Meta:
